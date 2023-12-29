@@ -9,7 +9,7 @@ jobs:
   dev_deploy:
     
     runs-on: [self-hosted, develop]
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/develop'
     strategy:
       matrix:
         node-version: [21.x]
