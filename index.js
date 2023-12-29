@@ -13,7 +13,7 @@ router.use((req, res, next) => {
 
 app.get("/", (req, res) => {
 	res.send(
-		`<h1>Infratoken</h1> <h3>Welcome to Infratoken CI-CD!</h3> <h3 style="color: green">Version ${version}</h3>`
+		`<h1>Infratoken</h1> <h3>Welcome to Infratoken CI-CD pipeline!</h3> <h3 style="color: green">Version ${version}</h3>`
 	);
 });
 
