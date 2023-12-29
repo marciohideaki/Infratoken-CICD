@@ -1,0 +1,45 @@
+name: Deploy on Push
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+jobs:
+  dev_deploy:
+    
+    runs-on: [self-hosted, develop]
+    if: github.ref == 'refs/heads/dev'
+    strategy:
+      matrix:
+        node-version: [21.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+  
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run:
+          npm ci
+
+  prod_deploy:
+    
+    runs-on: [self-hosted, production]
+    if: github.ref == 'refs/heads/main'
+    strategy:
+      matrix:
+        node-version: [21.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run:
+          npm ci
