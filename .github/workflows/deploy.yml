@@ -22,7 +22,6 @@ jobs:
       - run: npm test
 
   dev_deploy:
-    
     runs-on: [self-hosted, develop]
     if: github.ref == 'refs/heads/develop'
     strategy:
@@ -35,6 +34,7 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
+          approvers: marciohideaki
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - run:
