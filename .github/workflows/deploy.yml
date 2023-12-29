@@ -23,6 +23,7 @@ jobs:
 
   dev_deploy:
     runs-on: [self-hosted, develop]
+    environment: 'development'
     if: github.ref == 'refs/heads/develop'
     strategy:
       matrix:
