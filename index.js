@@ -4,7 +4,7 @@ const http = require('http');
 const app = express();
 const router = express.Router();
 const port = 3000;
-const version = "0.0.3";
+const version = "0.0.1";
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');

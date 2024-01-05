@@ -5,16 +5,15 @@ on:
       - develop
       - main
 jobs:
+
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '21.x'
       - name: Install dependencies
         run: npm install
       - run: npm ci
@@ -28,8 +27,24 @@ jobs:
     strategy:
       matrix:
         node-version: [21.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-  
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          approvers: marciohideaki
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run:
+          npm ci
+
+  staging_deploy:
+    runs-on: [self-hosted, staging]
+    environment: 'staging'
+    if: github.ref == 'refs/heads/develop'
+    strategy:
+      matrix:
+        node-version: [21.x]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -42,18 +57,13 @@ jobs:
           npm ci
 
   prod_deploy:
-    
     runs-on: [self-hosted, production]
+    environment: 'production'
     if: github.ref == 'refs/heads/main'
     strategy:
       matrix:
         node-version: [21.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-    
     steps:
-      - uses: trstringer/manual-approval@v1
-        with:
-            approvers: marciohideaki
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
